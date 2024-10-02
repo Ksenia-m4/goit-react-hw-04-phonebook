@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
 
-import { useState } from "react";
-
 import css from "./ContactForm.module.css";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const ContactForm = ({ onSubmit }) => {
-  const [contactName, setContactName] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [contactName, setContactName] = useLocalStorage("name", "");
+  const [contactNumber, setContactNumber] = useLocalStorage("number", "");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
