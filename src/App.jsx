@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 
 import "./App.css";
@@ -73,15 +73,13 @@ const App = () => {
     setFilter(e.target.value);
   };
 
-  const getFilteredContacts = () => {
+  const filteredContacts = useMemo(() => {
+    console.log("memo");
     const normalizedName = filter.toLowerCase();
-
     return contacts.filter((contact) =>
       contact.name.toLowerCase().includes(normalizedName)
     );
-  };
-
-  const filteredContacts = getFilteredContacts();
+  }, [contacts, filter]);
 
   return (
     <>
