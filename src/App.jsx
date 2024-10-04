@@ -17,18 +17,14 @@ const contactsList = [
 ];
 
 const App = () => {
-  const [contacts, setContacts] = useState(contactsList);
+  const [contacts, setContacts] = useState(() => {
+    const savedContacts = window.localStorage.getItem(LS_KEY);
+    return savedContacts ? JSON.parse(savedContacts) : contactsList;
+  });
+
   const [filter, setFilter] = useState("");
 
   const isFirstRender = useRef(true);
-
-  // componentDidMount
-  useEffect(() => {
-    const savedContacts = window.localStorage.getItem(LS_KEY);
-    if (savedContacts) {
-      setContacts(JSON.parse(savedContacts));
-    }
-  }, []);
 
   // componentDidUpdate (только после первого рендера)
   useEffect(() => {
@@ -74,7 +70,6 @@ const App = () => {
   };
 
   const filteredContacts = useMemo(() => {
-    console.log("memo");
     const normalizedName = filter.toLowerCase();
     return contacts.filter((contact) =>
       contact.name.toLowerCase().includes(normalizedName)
